@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"runtime/debug"
+	"time"
 )
 
 // Writes error msg and stack trace to errorLog, then sends generic 500 Internal Server Error response to user
@@ -46,4 +47,10 @@ func (app *application) render(w http.ResponseWriter, status int, page string, d
 	// If no errors, then its safe to write to http.ResponseWriter
 	w.WriteHeader(status)
 	buf.WriteTo(w)
+}
+
+func (app *application) newTemplateData(r *http.Request) *templateData {
+	return &templateData{
+		CurrentYear: time.Now().Year(),
+	}
 }
